@@ -34,19 +34,19 @@ jobs:
         run: |
           make install
         # Add environment variables
-        env:
-          CI: true
-      - name: Run linter
-        # Run Linter
-        run: |
-          make lint
-      - name: Test & publish code coverage
-        # Publish code coverage on Code Climate
-        # https://github.com/paambaati/codeclimate-action
-        uses: paambaati/codeclimate-action@v2.7.4
-        # Add Code Climate secret key
-        env:
-          CC_TEST_REPORTER_ID: a4a024113da4c861fcff2e2783af469421f9fab4a10ab9a8ec058298edb42945
-        with:
-          coverageCommand: make test-coverage
-          debug: true
+        # env:
+        #   CI: true
+      # - name: Run linter
+      #   # Run Linter
+      #   run: |
+      #     make lint
+      # - name: Test & publish code coverage
+      #   # Publish code coverage on Code Climate
+      #   # https://github.com/paambaati/codeclimate-action
+      #   uses: paambaati/codeclimate-action@v2.7.4
+      #   # Add Code Climate secret key
+      #   env:
+      #     CC_TEST_REPORTER_ID: a4a024113da4c861fcff2e2783af469421f9fab4a10ab9a8ec058298edb42945
+      #   with:
+      #     coverageCommand: make test-coverage
+      #     debug: true
