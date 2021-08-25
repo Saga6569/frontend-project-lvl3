@@ -21,11 +21,15 @@
   "homepage": "https://github.com/Saga6569/frontend-project-lvl3#readme",
   "dependencies": {
     "@popperjs/core": "^2.9.2",
+    "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "bootstrap": "^5.0.0-beta3",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
-    "popper.js": "^1.16.1"
+    "on-change": "^3.0.2",
+    "popper.js": "^1.16.1",
+    "promise": "^8.1.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

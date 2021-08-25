@@ -1,4 +1,4 @@
-import component from './src/index.js';
+import app from './src/index.js';
+import './src/Bootstrap/style.css';
 
-// eslint-disable-next-line no-undef
-document.body.appendChild(component());
+app();
