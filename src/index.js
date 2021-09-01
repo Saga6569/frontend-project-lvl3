@@ -5,6 +5,7 @@ import { setLocale } from 'yup';
 import axios from 'axios';
 import Example from './Example.js';
 import render from './render';
+import generationData from './utilits.js';
 
 setLocale({
   mixed: {
@@ -35,20 +36,14 @@ export default () => {
 
   const watchedState = onChange(state, (path, value) => {
     const parser = new DOMParser();
-    axios.get(value)
+    console.log(value);
+    axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}`)
       .then((response) => {
-        const xmlString = response.data;
+        const xmlString = response.data.contents;
         console.log(xmlString);
-        const doc1 = parser.parseFromString(xmlString, 'text/html');
-        console.log(doc1.querySelector('channel'));
-        const html = doc1.querySelector('channel');
-        //console.log(html.children);
+        const doc1 = parser.parseFromString(xmlString, 'application/xml');
         console.log(doc1);
-        const cild = Array.from(html.children);
-        const f = cild.filter((el) => el.tagName.toLowerCase() === 'item');
-        console.log(f);
-        // const items = (html.children).filter(el => el.innerHTML === 'item');
-        // console.log(items);
+        const result = generationData(doc1);
       })
       .catch((error) => {
         console.log(error);
@@ -65,8 +60,6 @@ export default () => {
       .catch((e) => {
         state.registrationForm.status = 'invalid';
         console.log(e.errors[0]);
-        // console.log(e.name);
-        // console.log(Object.keys(e));
         state.errors = e.errors;
         return render(state);
       });
