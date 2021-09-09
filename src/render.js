@@ -1,21 +1,24 @@
 /* eslint-disable no-undef */
+import {
+  coorectUrl, invalidUrl, erorRss, errorRequest, rendering,
+} from './utilits.js';
+
 const render = (state) => {
-  console.log('render');
-  console.log(state);
   if (state.registrationForm.status === 'correct') {
-    console.log('ссылка рабочая можно делать запрос');
-    document.querySelector('form').reset();
-    document.querySelector('.feedback').classList.remove('text-danger');
-    document.querySelector('.feedback').classList.add('text-success');
-    document.querySelector('.feedback').innerText = 'RSS успешно загружен';
+    coorectUrl();
+    rendering(state);
     return;
   }
-  const error = state.errors[0];
-  console.log('ошибка отрисовываем');
-  if (error.type === 'url') {
-    document.querySelector('.feedback').classList.remove('text-success');
-    document.querySelector('.feedback').classList.add('text-danger');
-    document.querySelector('.feedback').innerText = error.text;
+  if (state.registrationForm.status === 'invalid') {
+    invalidUrl(state);
+    return;
+  }
+  if (state.registrationForm.status === 'rss') {
+    erorRss();
+    return;
+  }
+  if (state.registrationForm.status === 'RequestError') {
+    errorRequest();
   }
 };
 

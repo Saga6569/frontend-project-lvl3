@@ -5,7 +5,7 @@ import { setLocale } from 'yup';
 import axios from 'axios';
 import Example from './Example.js';
 import render from './render';
-import generationData from './utilits.js';
+import { generationData, parserData } from './utilits.js';
 
 setLocale({
   mixed: {
@@ -26,44 +26,57 @@ export default () => {
   });
 
   const state = {
+    processStatus: null,
     registrationForm: {
       status: 'invalid',
       url: '',
     },
     SuccessfulAdded: [],
     errors: {},
+    contener: {
+      fids: [],
+      items: [],
+    },
   };
 
   const watchedState = onChange(state, (path, value) => {
-    const parser = new DOMParser();
-    console.log(value);
-    axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}`)
-      .then((response) => {
-        const xmlString = response.data.contents;
-        console.log(xmlString);
-        const doc1 = parser.parseFromString(xmlString, 'application/xml');
-        console.log(doc1);
-        const result = generationData(doc1);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-
     const promise = schema.validate({ url: value });
     promise
       .then(() => {
+        console.log('ссылка валидна');
         state.registrationForm.status = 'correct';
         state.registrationForm.url = value;
         state.SuccessfulAdded.push(value);
+        return value;
+      })
+      .then(() => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}`))
+      .then((response) => {
+        console.log('результат запроса');
+        if (response.data.contents === null) {
+          console.log('ошибка запроса');
+          state.registrationForm.status = 'RequestError';
+          return render(state);
+        }
+        console.log('запрос успешен');
+        const XML = parserData(response.data.contents);
+        if (XML === 'er') {
+          console.log('ошибка парсера');
+          state.registrationForm.status = 'rss';
+          return render(state);
+        }
+        console.log('парсим данные');
+        const result = generationData(XML);
+        console.log(result);
+        state.contener.fids = [...state.contener.fids, ...result.fids];
+        state.contener.items = [...state.contener.items, ...result.items];
         return render(state);
       })
       .catch((e) => {
+        console.log('отрисовывваем ошибки');
         state.registrationForm.status = 'invalid';
-        console.log(e.errors[0]);
         state.errors = e.errors;
         return render(state);
       });
-    console.log('конец прослушки');
   });
 
   document.querySelector('form').addEventListener('submit', (e) => {
