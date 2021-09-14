@@ -27,15 +27,12 @@ export default () => {
 
   const state = {
     processStatus: null,
-    registrationForm: {
-      status: 'invalid',
-      url: '',
-    },
+    url: null,
     SuccessfulAdded: [],
     errors: {},
     contener: {
       fids: [],
-      items: [],
+      posts: [],
     },
   };
 
@@ -43,38 +40,33 @@ export default () => {
     const promise = schema.validate({ url: value });
     promise
       .then(() => {
-        console.log('ссылка валидна');
-        state.registrationForm.status = 'correct';
-        state.registrationForm.url = value;
-        state.SuccessfulAdded.push(value);
+        if ((state.SuccessfulAdded).includes(value)) {
+          throw ({ message: { type: 'duble', text: 'RSS уже существует' } });
+        }
+        state.processStatus = 'inquiry';
         return value;
       })
       .then(() => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}`))
       .then((response) => {
         console.log('результат запроса');
         if (response.data.contents === null) {
-          console.log('ошибка запроса');
-          state.registrationForm.status = 'RequestError';
-          return render(state);
+          throw ({ message: { type: 'RequestError', text: 'Ресурс не содержит валидный RSS' } });
         }
-        console.log('запрос успешен');
         const XML = parserData(response.data.contents);
         if (XML === 'er') {
           console.log('ошибка парсера');
-          state.registrationForm.status = 'rss';
-          return render(state);
+          throw ({ message: { type: 'rss', text: 'нет RSS потока' } });
         }
-        console.log('парсим данные');
         const result = generationData(XML);
-        console.log(result);
         state.contener.fids = [...state.contener.fids, ...result.fids];
-        state.contener.items = [...state.contener.items, ...result.items];
+        state.contener.posts = [...state.contener.posts, ...result.posts];
+        state.SuccessfulAdded.push(value);
+        state.processStatus = 'finiched';
         return render(state);
       })
       .catch((e) => {
-        console.log('отрисовывваем ошибки');
-        state.registrationForm.status = 'invalid';
-        state.errors = e.errors;
+        state.processStatus = 'failed';
+        state.errors = e.message;
         return render(state);
       });
   });
@@ -83,6 +75,6 @@ export default () => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const result = formData.get('url');
-    watchedState.registrationForm.url = result;
+    watchedState.url = result;
   });
 };

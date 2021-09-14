@@ -6,14 +6,15 @@ export const generationData = (html) => {
   const fids = [{ fidTitle, fidDescription }];
   const data = html.querySelector('channel');
   const cild = Array.from(data.children);
-  const items = cild
+  const posts = cild
     .filter((el) => el.tagName.toLowerCase() === 'item')
     .map((el) => {
       const title = el.querySelector('title').textContent.trim();
       const link = el.querySelector('link').textContent;
-      return { title, link };
+      const description = el.querySelector('description').textContent;
+      return { title, link, description };
     });
-  const result = { fids, items };
+  const result = { fids, posts };
   return result;
 };
 
@@ -30,32 +31,44 @@ export const coorectUrl = () => {
   document.querySelector('.feedback').innerText = 'RSS успешно загружен';
 };
 
-export const invalidUrl = (state) => {
-  const error = state.errors[0];
-  document.querySelector('.feedback').classList.remove('text-success');
-  document.querySelector('.feedback').classList.add('text-danger');
-  document.querySelector('.feedback').innerText = error.text;
-};
-
-export const erorRss = () => {
-  document.querySelector('.feedback').classList.remove('text-success');
-  document.querySelector('.feedback').classList.add('text-danger');
-  document.querySelector('.feedback').innerText = 'нет RSS потока';
-};
-
-export const errorRequest = () => {
-  document.querySelector('.feedback').classList.remove('text-success');
-  document.querySelector('.feedback').classList.add('text-danger');
-  document.querySelector('.feedback').innerText = 'Ошибка запроса ';
-};
-
-export const rendering = (state) => {
-  console.log(state);
-  const { fids, items } = state.contener;
-  console.log(fids);
-  console.log(items);
+export const renderingPosts = (posts) => {
   const contenerPost = document.querySelector('.posts');
+  const cardBody = document.createElement('div');
+  cardBody.className = 'card-body-0';
+  cardBody.innerHTML = '<h2 class="card-title h4">Посты</h2>';
+  contenerPost.append(cardBody);
+  const listGroup = document.createElement('ul');
+  contenerPost.append(listGroup);
+  listGroup.className = 'class="list-group border-0 rounded-0';
+  return posts.map((el) => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
+    li.innerHTML = `<a href="${el.link}" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${el.title}</a>
+    <button type="button" class="btn btn-outline-primary btn-sm" data-id="2" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
+    return listGroup.append(li);
+  });
+};
+
+export const renderingFids = (fids) => {
   const contenerfids = document.querySelector('.feeds');
-  console.log(contenerPost);
-  console.log(contenerfids);
+  const cardBody = document.createElement('div');
+  cardBody.className = 'card-body-0';
+  cardBody.innerHTML = '<h2 class="card-title h4">Фиды</h2>';
+  contenerfids.append(cardBody);
+  const listGroup = document.createElement('ul');
+  contenerfids.append(listGroup);
+  listGroup.className = 'class="list-group border-0 rounded-0';
+  return fids.map((el) => {
+    const li = document.createElement('li');
+    li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
+    li.innerHTML = `<li class="list-group-item border-0 border-end-0">
+    <h3 class="h6 m-0">${el.fidTitle}</h3><p class="m-0 small text-black-50">${el.fidDescription}</p></li>`;
+    return listGroup.append(li);
+  });
+};
+
+export const renderError = (state) => {
+  document.querySelector('.feedback').classList.remove('text-success');
+  document.querySelector('.feedback').classList.add('text-danger');
+  document.querySelector('.feedback').innerText = state.errors.text;
 };
