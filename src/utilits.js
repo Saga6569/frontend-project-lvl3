@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+
 export const generationData = (html) => {
   const channel = html.querySelector('channel');
   const fidTitle = channel.querySelector('title').textContent;
@@ -33,10 +34,12 @@ export const coorectUrl = () => {
 
 export const renderingPosts = (posts) => {
   const contenerPost = document.querySelector('.posts');
-  const cardBody = document.createElement('div');
-  cardBody.className = 'card-body-0';
-  cardBody.innerHTML = '<h2 class="card-title h4">Посты</h2>';
-  contenerPost.append(cardBody);
+  if (contenerPost.querySelector('.card-title') === null) {
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body-0';
+    cardBody.innerHTML = '<h2 class="card-title h4">Посты</h2>';
+    contenerPost.append(cardBody);
+  }
   const listGroup = document.createElement('ul');
   contenerPost.append(listGroup);
   listGroup.className = 'class="list-group border-0 rounded-0';
@@ -51,10 +54,12 @@ export const renderingPosts = (posts) => {
 
 export const renderingFids = (fids) => {
   const contenerfids = document.querySelector('.feeds');
-  const cardBody = document.createElement('div');
-  cardBody.className = 'card-body-0';
-  cardBody.innerHTML = '<h2 class="card-title h4">Фиды</h2>';
-  contenerfids.append(cardBody);
+  if (contenerfids.querySelector('.card-title') === null) {
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body-0';
+    cardBody.innerHTML = '<h2 class="card-title h4">Фиды</h2>';
+    contenerfids.append(cardBody);
+  }
   const listGroup = document.createElement('ul');
   contenerfids.append(listGroup);
   listGroup.className = 'class="list-group border-0 rounded-0';

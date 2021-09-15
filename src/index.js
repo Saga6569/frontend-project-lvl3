@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 /* eslint-disable no-undef */
 import onChange from 'on-change';
 import * as yup from 'yup';
@@ -69,6 +70,18 @@ export default () => {
         state.errors = e.message;
         return render(state);
       });
+    const f = () => {
+      const promise1 = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(state);
+        }, 5000);
+      });
+      promise1.then((value) => {
+        console.log(value);
+        return f();
+      });
+    };
+    f();
   });
 
   document.querySelector('form').addEventListener('submit', (e) => {

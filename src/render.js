@@ -8,6 +8,8 @@ const render = (state) => {
     coorectUrl();
     renderingPosts(state.contener.posts);
     renderingFids(state.contener.fids);
+    state.contener.fids = [];
+    state.contener.posts = [];
     return;
   }
   renderError(state);
