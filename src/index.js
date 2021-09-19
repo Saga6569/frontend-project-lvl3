@@ -6,7 +6,7 @@ import { setLocale } from 'yup';
 import axios from 'axios';
 import Example from './Example.js';
 import render from './render';
-import { generationData, parserData } from './utilits.js';
+import { generationData, parserData, updatePost } from './utilits';
 
 setLocale({
   mixed: {
@@ -27,6 +27,7 @@ export default () => {
   });
 
   const state = {
+    updatePosts: false,
     processStatus: null,
     url: null,
     SuccessfulAdded: [],
@@ -63,6 +64,7 @@ export default () => {
         state.contener.posts = [...state.contener.posts, ...result.posts];
         state.SuccessfulAdded.push(value);
         state.processStatus = 'finiched';
+        state.updatePosts = true;
         return render(state);
       })
       .catch((e) => {
@@ -76,12 +78,14 @@ export default () => {
           resolve(state);
         }, 5000);
       });
-      promise1.then((value) => {
-        console.log(value);
+      promise1.then(() => {
+        updatePost(state);
         return f();
       });
     };
-    f();
+    if ((state.contener.posts).length === 0) {
+      f();
+    }
   });
 
   document.querySelector('form').addEventListener('submit', (e) => {
