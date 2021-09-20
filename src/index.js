@@ -4,7 +4,6 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
 import axios from 'axios';
-import Example from './Example.js';
 import render from './render';
 import { generationData, parserData, updatePost } from './utilits';
 
@@ -18,16 +17,12 @@ setLocale({
 });
 
 export default () => {
-  const element = document.getElementById('point');
-  const obj = new Example(element);
-  obj.init();
-
   const schema = yup.object().shape({
     url: yup.string().url(),
   });
 
   const state = {
-    updatePosts: false,
+    updatePosts: true,
     processStatus: null,
     url: null,
     SuccessfulAdded: [],
@@ -42,6 +37,8 @@ export default () => {
     const promise = schema.validate({ url: value });
     promise
       .then(() => {
+        state.contener.fids = [];
+        state.contener.posts = [];
         if ((state.SuccessfulAdded).includes(value)) {
           throw ({ message: { type: 'duble', text: 'RSS уже существует' } });
         }
@@ -83,6 +80,7 @@ export default () => {
         return f();
       });
     };
+
     if ((state.contener.posts).length === 0) {
       f();
     }

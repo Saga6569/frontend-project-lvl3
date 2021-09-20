@@ -1,3 +1,5 @@
+/* eslint-disable consistent-return */
+/* eslint-disable array-callback-return */
 /* eslint-disable no-undef */
 import axios from 'axios';
 import _ from 'lodash';
@@ -26,8 +28,8 @@ export const generationData = (html) => {
 
 export const parserData = (data) => {
   const parser = new DOMParser();
-  const res = parser.parseFromString(data, 'application/xml');
-  return res.activeElement.nodeName === 'parsererror' ? 'er' : res;
+  const result = parser.parseFromString(data, 'application/xml');
+  return result.activeElement.nodeName === 'parsererror' ? 'er' : result;
 };
 
 export const coorectUrl = () => {
@@ -60,24 +62,22 @@ export const renderHeadlines = () => {
   }
 };
 
-export const renderingPosts = (posts) => {
+export const renderingPosts = (post) => {
   const listGroup = document.querySelector('.posts > ul');
-  return posts.map((el) => {
-    const li = document.createElement('li');
-    li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
-    li.innerHTML = `<a href="${el.link}" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${el.title}</a>
+  const li = document.createElement('li');
+  li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
+  li.innerHTML = `<a href="${post.link}" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a>
     <button type="button" class="btn btn-outline-primary btn-sm" data-id="${_.uniqueId()}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
-    return listGroup.append(li);
-  });
+  return listGroup.append(li);
 };
 
 export const renderingFids = (fids) => {
   const listGroup = document.querySelector('.feeds > ul');
-  return fids.map((el) => {
-    const li = document.createElement('li');
+  const li = document.createElement('li');
+  return fids.map((fid) => {
     li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
     li.innerHTML = `<li class="list-group-item border-0 border-end-0">
-    <h3 class="h6 m-0">${el.fidTitle}</h3><p class="m-0 small text-black-50">${el.fidDescription}</p></li>`;
+    <h3 class="h6 m-0">${fid.fidTitle}</h3><p class="m-0 small text-black-50">${fid.fidDescription}</p></li>`;
     return listGroup.append(li);
   });
 };
@@ -95,14 +95,13 @@ export const updatePost = (state) => {
   const text = arrItems.map((el) => el.firstChild.textContent);
   console.log(text);
   console.log(contenerPost.childElementCount);
-  const arrLl = arrUrl.map((el) => {
-    const result = axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(el))}`)
-      .then((value) => generationData(parserData(value.data.contents)).posts)
-      .then((value1) => value1.map((el) => {
-        if (!text.includes(el.title)) {
-          return el.title;
-        }
-      }))
-      .then((value3) => renderingPosts(value3));
-  });
+  return arrUrl.map((url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(url))}`)
+    .then((value) => generationData(parserData(value.data.contents)).posts)
+    .then((value1) => value1.map((el) => {
+      if (!text.includes(el.title)) {
+        console.log('совпадение');
+        return renderingPosts(el);
+      }
+      console.log('нет совпадений');
+    })));
 };
