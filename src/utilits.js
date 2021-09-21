@@ -73,7 +73,7 @@ export const renderingPosts = (post) => {
     document.querySelector('.modal-title').innerHTML = `${post.title}`;
     document.querySelector('.modal-body').innerHTML = `${post.description}`;
     document.querySelector('.modal-body').innerHTML = `${post.description}`;
-    document.querySelector('li > a').className = 'fw-normal';
+    li.querySelector('a').className = 'fw-normal';
     document.querySelector('.modal-footer > a').setAttribute('href', post.link);
   });
   return listGroup.append(li);
