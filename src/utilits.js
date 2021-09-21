@@ -69,10 +69,12 @@ export const renderingPosts = (post) => {
   li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
   li.innerHTML = `<a href="${post.link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${post.title}</a>
     <button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
-  li.querySelector('button').addEventListener('click', (e) => {
-    console.log(e.target);
+  li.querySelector('button').addEventListener('click', () => {
     document.querySelector('.modal-title').innerHTML = `${post.title}`;
     document.querySelector('.modal-body').innerHTML = `${post.description}`;
+    document.querySelector('.modal-body').innerHTML = `${post.description}`;
+    document.querySelector('li > a').className = 'fw-normal';
+    document.querySelector('.modal-footer > a').setAttribute('href', post.link);
   });
   return listGroup.append(li);
 };
