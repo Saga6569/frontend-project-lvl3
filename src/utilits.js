@@ -65,9 +65,15 @@ export const renderHeadlines = () => {
 export const renderingPosts = (post) => {
   const listGroup = document.querySelector('.posts > ul');
   const li = document.createElement('li');
+  const id = _.uniqueId();
   li.className = 'list-group-item d-flex justify-content-between align-items-start border-0 border-end-0';
-  li.innerHTML = `<a href="${post.link}" class="fw-bold" data-id="2" target="_blank" rel="noopener noreferrer">${post.title}</a>
-    <button type="button" class="btn btn-outline-primary btn-sm" data-id="${_.uniqueId()}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
+  li.innerHTML = `<a href="${post.link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${post.title}</a>
+    <button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
+  li.querySelector('button').addEventListener('click', (e) => {
+    console.log(e.target);
+    document.querySelector('.modal-title').innerHTML = `${post.title}`;
+    document.querySelector('.modal-body').innerHTML = `${post.description}`;
+  });
   return listGroup.append(li);
 };
 
@@ -95,7 +101,7 @@ export const updatePost = (state) => {
   const text = arrItems.map((el) => el.firstChild.textContent);
   console.log(text);
   console.log(contenerPost.childElementCount);
-  return arrUrl.map((url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(url))}`)
+  return arrUrl.map((url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(url))}&disableCache=true`)
     .then((value) => generationData(parserData(value.data.contents)).posts)
     .then((value1) => value1.map((el) => {
       if (!text.includes(el.title)) {

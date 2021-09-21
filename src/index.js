@@ -6,6 +6,7 @@ import { setLocale } from 'yup';
 import axios from 'axios';
 import render from './render';
 import { generationData, parserData, updatePost } from './utilits';
+import 'bootstrap';
 
 setLocale({
   mixed: {
@@ -45,7 +46,7 @@ export default () => {
         state.processStatus = 'inquiry';
         return value;
       })
-      .then(() => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}`))
+      .then(() => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}&disableCache=true`))
       .then((response) => {
         console.log('результат запроса');
         if (response.data.contents === null) {
