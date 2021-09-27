@@ -89,6 +89,7 @@ export default () => {
     };
 
     if ((state.contener.posts).length === 0 && state.processStatus !== 'failed') {
+      console.log('12121');
       update();
     }
   });
