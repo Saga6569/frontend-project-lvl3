@@ -47,6 +47,7 @@ export default () => {
       })
       .then(() => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}&disableCache=true`))
       .then((response) => {
+        console.log(response);
         console.log('результат запроса');
         if (response.data.contents === null) {
           throw ({ message: { type: 'RequestError', text: 'Ресурс не содержит валидный RSS' } });
@@ -65,10 +66,16 @@ export default () => {
         return render(state);
       })
       .catch((e) => {
+        // eslint-disable-next-line no-prototype-builtins
+        if (e.hasOwnProperty('isAxiosError')) {
+          state.errors = { type: 'rss', text: 'Ошибка сети' };
+          return render(state);
+        }
         state.processStatus = 'failed';
         state.errors = e.message;
         return render(state);
       });
+
     const update = () => {
       const promise1 = new Promise((resolve) => {
         setTimeout(() => {
@@ -81,7 +88,7 @@ export default () => {
       });
     };
 
-    if ((state.contener.posts).length === 0) {
+    if ((state.contener.posts).length === 0 && state.processStatus !== 'failed') {
       update();
     }
   });
