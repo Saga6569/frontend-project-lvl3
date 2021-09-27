@@ -36,7 +36,7 @@ export const coorectUrl = () => {
   document.querySelector('form').reset();
   document.querySelector('.feedback').classList.remove('text-danger');
   document.querySelector('.feedback').classList.add('text-success');
-  document.querySelector('.feedback').innerText = 'RSS успешно загружен';
+  document.querySelector('.feedback').textContent = 'RSS успешно загружен';
 };
 
 export const renderHeadlines = () => {
@@ -102,8 +102,6 @@ export const updatePost = (state) => {
   const arrUrl = state.SuccessfulAdded;
   const arrItems = Array.from(contenerPost.children);
   const text = arrItems.map((el) => el.firstChild.textContent);
-  console.log(text);
-  console.log(contenerPost.childElementCount);
   return arrUrl.map((url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(url))}&disableCache=true`)
     .then((value) => generationData(parserData(value.data.contents)).posts)
     .then((value1) => value1.map((el) => {

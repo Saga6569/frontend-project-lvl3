@@ -1,5 +1,7 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-undef */
+import './Bootstrap/style.css';
+import 'bootstrap';
 import onChange from 'on-change';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
@@ -47,8 +49,6 @@ export default () => {
       })
       .then(() => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(value))}&disableCache=true`))
       .then((response) => {
-        console.log(response);
-        console.log('результат запроса');
         if (response.data.contents === null) {
           throw ({ message: { type: 'RequestError', text: 'Ресурс не содержит валидный RSS' } });
         }
@@ -89,7 +89,6 @@ export default () => {
     };
 
     if ((state.contener.posts).length === 0 && state.processStatus !== 'failed') {
-      console.log('12121');
       update();
     }
   });
