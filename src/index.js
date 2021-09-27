@@ -70,7 +70,7 @@ export default () => {
         state.errors = e.message;
         return render(state);
       });
-    const f = () => {
+    const update = () => {
       const promise1 = new Promise((resolve) => {
         setTimeout(() => {
           resolve(state);
@@ -78,12 +78,12 @@ export default () => {
       });
       promise1.then(() => {
         updatePost(state);
-        return f();
+        return update();
       });
     };
 
     if ((state.contener.posts).length === 0) {
-      f();
+      update();
     }
   });
 
