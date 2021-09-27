@@ -6,7 +6,6 @@ import { setLocale } from 'yup';
 import axios from 'axios';
 import render from './render';
 import { generationData, parserData, updatePost } from './utilits';
-import 'bootstrap';
 
 setLocale({
   mixed: {
