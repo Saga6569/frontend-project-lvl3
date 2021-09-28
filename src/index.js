@@ -18,7 +18,7 @@ setLocale({
   },
 });
 
-export default () => {
+const init = () => {
   const schema = yup.object().shape({
     url: yup.string().url(),
   });
@@ -100,3 +100,5 @@ export default () => {
     watchedState.url = result;
   });
 };
+
+export default () => new Promise((resolve) => resolve(init()));
