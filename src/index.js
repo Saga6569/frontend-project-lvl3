@@ -1,7 +1,5 @@
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-undef */
-import './Bootstrap/style.css';
-import 'bootstrap';
 import onChange from 'on-change';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
