@@ -18,7 +18,7 @@ setLocale({
   },
 });
 
-const init = () => {
+export default async () => {
   const schema = yup.object().shape({
     url: yup.string().url(),
   });
@@ -92,7 +92,7 @@ const init = () => {
       update();
     }
   });
-  const form = document.querySelector('form');
+  const form = await document.querySelector('form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -100,5 +100,3 @@ const init = () => {
     watchedState.url = result;
   });
 };
-
-export default () => new Promise((resolve) => resolve(init()));
