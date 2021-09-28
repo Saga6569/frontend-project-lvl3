@@ -38,6 +38,7 @@ export const coorectUrl = () => {
   document.querySelector('.feedback').classList.remove('text-danger');
   document.querySelector('.feedback').classList.add('text-success');
   document.querySelector('.feedback').textContent = 'RSS успешно загружен';
+  console.log(document.querySelector('.feedback'));
 };
 
 export const renderHeadlines = () => {
