@@ -33,6 +33,7 @@ export const parserData = (data) => {
 };
 
 export const coorectUrl = () => {
+  console.log('отрисовываем правильный ответ');
   document.querySelector('form').reset();
   document.querySelector('.feedback').classList.remove('text-danger');
   document.querySelector('.feedback').classList.add('text-success');

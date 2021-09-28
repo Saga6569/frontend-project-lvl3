@@ -93,6 +93,7 @@ export default () => {
     }
   });
   document.querySelector('form').addEventListener('submit', async (e) => {
+    console.log('весим событие');
     e.preventDefault();
     const formData = new FormData(e.target);
     const result = formData.get('url');
