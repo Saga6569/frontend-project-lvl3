@@ -9,7 +9,7 @@ import axios from 'axios';
 import render from './render';
 import { generationData, parserData, updatePost } from './utilits';
 
-export default async () => {
+export default () => {
   setLocale({
     mixed: {
       default: 'field_invalid',
@@ -66,7 +66,7 @@ export default async () => {
         return render(state);
       })
       .catch((e) => {
-        // eslint-disable-next-line no-prototype-builtins
+      // eslint-disable-next-line no-prototype-builtins
         if (e.hasOwnProperty('isAxiosError')) {
           state.errors = { type: 'rss', text: 'Ошибка сети' };
           return render(state);
@@ -92,7 +92,7 @@ export default async () => {
       update();
     }
   });
-  await document.querySelector('form').addEventListener('submit', (e) => {
+  document.querySelector('form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const result = formData.get('url');

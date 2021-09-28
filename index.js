@@ -1,5 +1,3 @@
 import app from './src/index.js';
 
-export default async () => {
-  await app();
-};
+export default () => new Promise((resolve) => (resolve(app())));

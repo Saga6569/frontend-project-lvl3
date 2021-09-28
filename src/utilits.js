@@ -70,7 +70,6 @@ export const renderingPosts = (post) => {
   li.innerHTML = `<a href="${post.link}" class="fw-bold" data-id="${id}" target="_blank" rel="noopener noreferrer">${post.title}</a>
     <button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
   li.querySelector('button').addEventListener('click', () => {
-    console.log(document.querySelector('#modal'));
     document.querySelector('.modal-title').innerHTML = `${post.title}`;
     document.querySelector('.modal-body').innerHTML = `${post.description}`;
     document.querySelector('.modal-body').innerHTML = `${post.description}`;
