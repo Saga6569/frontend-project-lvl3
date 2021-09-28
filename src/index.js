@@ -9,16 +9,16 @@ import axios from 'axios';
 import render from './render';
 import { generationData, parserData, updatePost } from './utilits';
 
-setLocale({
-  mixed: {
-    default: 'field_invalid',
-  },
-  string: {
-    url: () => ({ type: 'url', text: 'Ссылка должна быть валидным URL' }),
-  },
-});
-
 export default async () => {
+  setLocale({
+    mixed: {
+      default: 'field_invalid',
+    },
+    string: {
+      url: () => ({ type: 'url', text: 'Ссылка должна быть валидным URL' }),
+    },
+  });
+
   const schema = yup.object().shape({
     url: yup.string().url(),
   });
