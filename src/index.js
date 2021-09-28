@@ -34,6 +34,7 @@ export default () => {
   };
 
   const watchedState = onChange(state, (path, value) => {
+    console.log('прослушиваем');
     const promise = schema.validate({ url: value });
     promise
       .then(() => {
@@ -91,7 +92,7 @@ export default () => {
     }
   });
   document.querySelector('form').addEventListener('submit', async (e) => {
-    console.log('весим событие');
+    console.log('событие');
     e.preventDefault();
     const formData = new FormData(e.target);
     const result = formData.get('url');

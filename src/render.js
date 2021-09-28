@@ -4,6 +4,7 @@ import {
 } from './utilits.js';
 
 const render = (state) => {
+  console.log('вызвали рендер');
   if (state.processStatus === 'finiched') {
     coorectUrl();
     renderHeadlines();
