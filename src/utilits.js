@@ -32,13 +32,24 @@ export const parserData = (data) => {
   return result.activeElement.nodeName === 'parsererror' ? 'er' : result;
 };
 
-export const coorectUrl = () => {
-  console.log('отрисовываем правильный ответ');
-  document.querySelector('form').reset();
-  document.querySelector('.feedback').classList.remove('text-danger');
-  document.querySelector('.feedback').classList.add('text-success');
-  document.querySelector('.feedback').textContent = 'RSS успешно загружен';
-  console.log(document.querySelector('.feedback').innerHTML);
+export const renderingMessage = (text, status) => {
+  if (status === 'finiched') {
+    document.querySelector('.feedback').classList.add('text-success');
+    document.querySelector('.feedback').classList.remove('text-danger');
+    document.querySelector('form').reset();
+  } else if (status === 'failed') {
+    document.querySelector('.feedback').classList.add('text-danger');
+    document.querySelector('.feedback').classList.remove('text-success');
+  }
+  document.querySelector('.feedback').innerHTML = text;
+};
+
+export const renderValidForm = (data) => {
+  if (data === false) {
+    document.querySelector('#url-input').classList.add('is-invalid');
+    return;
+  }
+  document.querySelector('#url-input').classList.remove('is-invalid');
 };
 
 export const renderHeadlines = () => {
@@ -90,12 +101,6 @@ export const renderingFids = (fids) => {
     <h3 class="h6 m-0">${fid.fidTitle}</h3><p class="m-0 small text-black-50">${fid.fidDescription}</p></li>`;
     return listGroup.append(li);
   });
-};
-
-export const renderError = (state) => {
-  document.querySelector('.feedback').classList.remove('text-success');
-  document.querySelector('.feedback').classList.add('text-danger');
-  document.querySelector('.feedback').innerText = state.errors.text;
 };
 
 export const updatePost = (state) => {

@@ -24,6 +24,7 @@
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "bootstrap": "^5.0.0-beta3",
+    "i18next": "^21.2.0",
     "jquery": "^3.6.0",
     "lodash": "^4.17.21",
     "on-change": "^3.0.2",
