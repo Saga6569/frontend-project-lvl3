@@ -4,9 +4,10 @@ import onChange from 'on-change';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
 import axios from 'axios';
-import i18next from 'i18next';
+import i18n from 'i18next';
 import {
-  generationData, parserData, updatePost, renderingMessage, renderingPosts, renderHeadlines, renderingFids, renderValidForm,
+  generationData, parserData, updatePost, renderingMessage,
+  renderingPosts, renderHeadlines, renderingFids, renderValidForm,
 } from './utilits';
 import langl from './locales/index.js';
 
@@ -26,7 +27,18 @@ const schema = yup.object().shape({
   url: yup.string().url(),
 });
 
-const app = () => {
+export default () => {
+  const defaultLanguage = 'ru';
+  const i18next = i18n.createInstance();
+  i18next.init({
+    lng: defaultLanguage,
+    debug: true,
+    resources: {
+      ru,
+      en,
+    },
+  });
+
   const state = {
     signUpForm: {
       valid: null,
@@ -67,7 +79,6 @@ const app = () => {
 
   document.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
-    console.log();
     watchedState.processStatus = 'during';
     const formData = new FormData(e.target);
     const result = formData.get('url');
@@ -116,19 +127,5 @@ const app = () => {
         state.errors = er.errors[0];
         watchedState.processStatus = 'failed';
       });
-  });
-};
-
-export default () => {
-  const promise = new Promise((resolve, reject) => {
-    i18next.init({
-      lng: 'ru',
-      debug: true,
-      resources: {
-        ru,
-        en,
-      },
-    });
-    resolve(app());
   });
 };
