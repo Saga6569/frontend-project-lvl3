@@ -27,8 +27,9 @@ const schema = yup.object().shape({
   url: yup.string().url(),
 });
 
+const defaultLanguage = 'ru';
+
 export default () => {
-  const defaultLanguage = 'ru';
   const i18next = i18n.createInstance();
   i18next.init({
     lng: defaultLanguage,
@@ -79,6 +80,7 @@ export default () => {
 
   document.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
+
     watchedState.processStatus = 'during';
     const formData = new FormData(e.target);
     const result = formData.get('url');
