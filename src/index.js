@@ -61,7 +61,6 @@ export default () => {
       document.querySelectorAll('button')[2].setAttribute('disabled', 'disabled');
       return;
     }
-    const text = i18next.t(state.errors.key);
     const validForm = state.signUpForm.valid;
     if (value === 'failed') {
       console.log('отрисовываем ошибку');
@@ -74,7 +73,8 @@ export default () => {
       posts.map((el) => renderingPosts(el));
       renderingFids(fids);
     }
-    renderingMessage(text, value, state.signUpForm.valid);
+    const text = value === 'finiched' ? i18next.t('feed.loaded') : i18next.t(state.errors.key);
+    renderingMessage(text, value);
     renderValidForm(validForm);
   });
 
@@ -96,6 +96,7 @@ export default () => {
         const promis = axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
         promis
           .then((response) => {
+            console.log(response);
             if (response.data.contents === null) {
               state.errors = { key: 'feed.networkError' };
               state.signUpForm.valid = true;

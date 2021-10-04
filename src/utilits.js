@@ -29,11 +29,11 @@ export const generationData = (html) => {
 export const parserData = (data) => {
   const parser = new DOMParser();
   const result = parser.parseFromString(data, 'application/xml');
-  console.log(result.documentElement.tagName);
   return result.documentElement.tagName === 'parsererror' ? 'er' : result;
 };
 
 export const renderingMessage = (text, status) => {
+  console.log('отрисовываем');
   if (status === 'finiched') {
     document.querySelector('.feedback').classList.add('text-success');
     document.querySelector('.feedback').classList.remove('text-danger');
