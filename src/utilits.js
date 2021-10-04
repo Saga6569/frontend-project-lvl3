@@ -29,7 +29,8 @@ export const generationData = (html) => {
 export const parserData = (data) => {
   const parser = new DOMParser();
   const result = parser.parseFromString(data, 'application/xml');
-  return result.activeElement.tagName === 'parsererror' ? 'er' : result;
+  console.log(result.documentElement.tagName);
+  return result.documentElement.tagName === 'parsererror' ? 'er' : result;
 };
 
 export const renderingMessage = (text, status) => {
