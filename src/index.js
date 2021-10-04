@@ -26,19 +26,7 @@ const schema = yup.object().shape({
   url: yup.string().url(),
 });
 
-export default () => {
-  const promise = new Promise((resolve, reject) => {
-    i18next.init({
-      lng: 'ru',
-      debug: true,
-      resources: {
-        ru,
-        en,
-      },
-    });
-    resolve();
-  });
-
+const app = () => {
   const state = {
     signUpForm: {
       valid: null,
@@ -128,5 +116,19 @@ export default () => {
         state.errors = er.errors[0];
         watchedState.processStatus = 'failed';
       });
+  });
+};
+
+export default () => {
+  const promise = new Promise((resolve, reject) => {
+    i18next.init({
+      lng: 'ru',
+      debug: true,
+      resources: {
+        ru,
+        en,
+      },
+    });
+    resolve(app());
   });
 };
