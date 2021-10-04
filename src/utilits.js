@@ -29,6 +29,7 @@ export const generationData = (html) => {
 export const parserData = (data) => {
   const parser = new DOMParser();
   const result = parser.parseFromString(data, 'application/xml');
+  console.log(result);
   return result.activeElement.nodeName === 'parsererror' ? 'er' : result;
 };
 
