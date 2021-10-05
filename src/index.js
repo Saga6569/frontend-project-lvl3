@@ -104,12 +104,12 @@ export default () => {
           })
           .then((response) => {
             console.log(response);
-            // if (response.data.contents === null) {
-            //   state.errors = { key: 'feed.networkError' };
-            //   state.signUpForm.valid = true;
-            //   watchedState.processStatus = 'failed';
-            //   return;
-            // }
+            if (response.data.contents === null) {
+              state.errors = { key: 'feed.networkError' };
+              state.signUpForm.valid = true;
+              watchedState.processStatus = 'failed';
+              return;
+            }
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
