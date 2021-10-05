@@ -103,9 +103,6 @@ export default () => {
             }
           })
           .then((response) => {
-            console.log(response);
-            console.log(response.data);
-            console.log(response.data.contents);
             if (response.data === null) {
               state.errors = { key: 'feed.networkError' };
               state.signUpForm.valid = true;
