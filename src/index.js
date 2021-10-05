@@ -101,13 +101,6 @@ export default () => {
               watchedState.processStatus = 'failed';
               return;
             }
-            // if (isAxiosError)
-            // console.log(Object.keys(errror));
-            // console.log(errror.config);
-            // console.log(errror.request);
-            // console.log(errror.response);
-            // console.log(errror.isAxiosError);
-            // console.log(errror.toJSON);
           })
           .then((response) => {
             console.log(response);
