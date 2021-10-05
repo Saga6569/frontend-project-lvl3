@@ -95,21 +95,22 @@ export default () => {
         const promis = axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
         promis
           .catch((errror) => {
-            if (errror.hasOwnProperty('isAxiosError')) {
-              state.errors = { key: 'feed.networkError' };
-              state.signUpForm.valid = true;
-              watchedState.processStatus = 'failed';
-              return;
-            }
+            // if (errror.hasOwnProperty('isAxiosError')) {
+            state.errors = { key: 'feed.networkError' };
+            state.signUpForm.valid = true;
+            watchedState.processStatus = 'failed';
+
+            // }
           })
           .then((response) => {
-            console.log(response);
-            if (response.data.status.error.name === 'RequestError') {
-              state.errors = { key: 'feed.networkError' };
-              state.signUpForm.valid = true;
-              watchedState.processStatus = 'failed';
-              return;
-            }
+            // console.log(response);
+            // console.log(response.data.contents);
+            // if (response.data.contents === null) {
+            //   state.errors = { key: 'feed.networkError' };
+            //   state.signUpForm.valid = true;
+            //   watchedState.processStatus = 'failed';
+            //   return;
+            // }
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
