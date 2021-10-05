@@ -103,7 +103,8 @@ export default () => {
             }
           })
           .then((response) => {
-            if (response.data === null) {
+            console.log(response);
+            if (response.data.status.error.name === 'RequestError') {
               state.errors = { key: 'feed.networkError' };
               state.signUpForm.valid = true;
               watchedState.processStatus = 'failed';
