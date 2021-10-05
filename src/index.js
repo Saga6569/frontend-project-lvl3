@@ -80,7 +80,6 @@ export default () => {
 
   document.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
-
     watchedState.processStatus = 'during';
     const formData = new FormData(e.target);
     const result = formData.get('url');
@@ -95,6 +94,21 @@ export default () => {
         }
         const promis = axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
         promis
+          .catch((errror) => {
+            if (errror.hasOwnProperty('isAxiosError')) {
+              state.errors = { key: 'feed.networkError' };
+              state.signUpForm.valid = true;
+              watchedState.processStatus = 'failed';
+              return;
+            }
+            // if (isAxiosError)
+            // console.log(Object.keys(errror));
+            // console.log(errror.config);
+            // console.log(errror.request);
+            // console.log(errror.response);
+            // console.log(errror.isAxiosError);
+            // console.log(errror.toJSON);
+          })
           .then((response) => {
             console.log(response);
             if (response.data.contents === null) {
@@ -120,12 +134,6 @@ export default () => {
           });
       })
       .catch((er) => {
-        if (er.hasOwnProperty('isAxiosError')) {
-          state.errors = { key: 'feed.networkError' };
-          state.signUpForm.valid = true;
-          watchedState.processStatus = 'failed';
-          return;
-        }
         state.signUpForm.valid = false;
         state.errors = er.errors[0];
         watchedState.processStatus = 'failed';
