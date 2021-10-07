@@ -83,6 +83,7 @@ export default () => {
     watchedState.processStatus = 'during';
     const formData = new FormData(e.target);
     const result = formData.get('url');
+    const ss = result;
     const valid = schema.validate({ url: result });
     valid
       .then(({ url }) => {
@@ -111,6 +112,8 @@ export default () => {
             //   watchedState.processStatus = 'failed';
             //   return;
             // }
+            console.log(ss);
+            console.log(response);
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
