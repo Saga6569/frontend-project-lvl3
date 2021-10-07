@@ -59,15 +59,18 @@ export default () => {
     if (value === 'during') {
       console.log('блокируем кнопку');
       document.querySelectorAll('button')[2].setAttribute('disabled', 'disabled');
+      document.querySelector('input').setAttribute('readonly', 'readonly');
       return;
     }
     const validForm = state.signUpForm.valid;
     if (value === 'failed') {
       console.log('отрисовываем ошибку');
       document.querySelectorAll('button')[2].removeAttribute('disabled');
+      document.querySelector('input').removeAttribute('readonly');
     } else if (value === 'finiched') {
       console.log('успешно');
       document.querySelectorAll('button')[2].removeAttribute('disabled');
+      document.querySelector('input').removeAttribute('readonly');
       renderHeadlines();
       const { posts, fids } = state.contener;
       posts.map((el) => renderingPosts(el));
