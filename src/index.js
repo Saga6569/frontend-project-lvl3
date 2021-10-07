@@ -112,8 +112,8 @@ export default () => {
             //   watchedState.processStatus = 'failed';
             //   return;
             // }
-            console.log(ss);
-            console.log(response);
+            console.log(ss, 'что тут');
+            console.log(response, 'response');
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
