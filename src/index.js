@@ -114,6 +114,7 @@ export default () => {
             // }
             console.log(ss, 'что тут');
             console.log(response, 'response');
+            console.log(response.data, 'response.data');
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
