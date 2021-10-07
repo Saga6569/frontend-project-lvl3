@@ -125,6 +125,21 @@ export default () => {
             state.signUpForm.valid = true;
             watchedState.processStatus = 'finiched';
             console.log('успешный конец промиса');
+            const up = () => {
+              if (state.SuccessfulAdded.length === 0) {
+                return;
+              }
+              const promise1 = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  resolve(updatePost);
+                }, 5000);
+              });
+              promise1.then((value) => {
+                value(state);
+                up();
+              });
+            };
+            up();
           });
       })
       .catch((er) => {
