@@ -143,6 +143,7 @@ export default () => {
                 up();
               });
             };
+            document.querySelector('input').focus();
             up();
           });
       })
