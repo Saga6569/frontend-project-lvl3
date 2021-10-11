@@ -45,7 +45,6 @@ export const renderingMessage = (text, status) => {
 };
 
 export const renderValidForm = (eror) => {
-  console.log(eror);
   if (eror === 'form.exist' || eror === 'form.invalid') {
     document.querySelector('#url-input').classList.add('is-invalid');
     return;

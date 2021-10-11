@@ -3,10 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: './src/init.js',
+  entry: {
+    index: {
+      import: './src/init.js',
+      dependOn: 'shared',
+    },
+    another: {
+      import: './src/utilits.js',
+      dependOn: 'shared',
+    },
+    shared: 'lodash',
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  optimization: {
+    runtimeChunk: 'single',
   },
   module: {
     rules: [

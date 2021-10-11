@@ -114,7 +114,6 @@ export default () => {
             state.contener.posts = [...state.contener.posts, ...posts];
             state.SuccessfulAdded.push(url);
             watchedState.processStatus = 'finiched';
-            console.log('успешный конец промиса');
             const up = () => {
               if (state.SuccessfulAdded.length === 0) {
                 return;
