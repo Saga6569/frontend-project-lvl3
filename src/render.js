@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import {
-  coorectUrl, renderError, renderingPosts, renderingFids, renderHeadlines,
+  renderingPosts, renderingFids, renderHeadlines,
 } from './utilits.js';
 
 const render = (state) => {
