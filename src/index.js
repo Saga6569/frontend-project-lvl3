@@ -109,7 +109,7 @@ export default () => {
           .then((response) => {
             // console.log(response);
             // console.log(response.data.contents);
-            if (response.data === undefined) {
+            if (response === undefined) {
               state.errors = { key: 'feed.networkError' };
               state.signUpForm.valid = true;
               watchedState.processStatus = 'failed';
