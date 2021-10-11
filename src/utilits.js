@@ -32,16 +32,14 @@ export const parserData = (data) => {
   return result.documentElement.tagName === 'parsererror' ? 'er' : result;
 };
 
-export const renderingMessage = (text, status) => {
+export const renderingMessage = (status, contener) => {
   if (status === 'finiched') {
-    document.querySelector('.feedback').classList.add('text-success');
-    document.querySelector('.feedback').classList.remove('text-danger');
-    document.querySelector('form').reset();
+    contener.classList.add('text-success');
+    contener.classList.remove('text-danger');
   } else if (status === 'failed') {
-    document.querySelector('.feedback').classList.add('text-danger');
-    document.querySelector('.feedback').classList.remove('text-success');
+    contener.classList.add('text-danger');
+    contener.classList.remove('text-success');
   }
-  document.querySelector('.feedback').innerHTML = text;
 };
 
 export const renderValidForm = (eror) => {

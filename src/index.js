@@ -53,20 +53,24 @@ export default () => {
     },
   };
 
+  const input = document.querySelector('input');
+  const form = document.querySelector('form');
+  const buttonForm = document.querySelectorAll('button')[2];
+  const feedbackContener = document.querySelector('.feedback');
+
   const watchedState = onChange(state, (path, value) => {
     if (value === 'during') {
-      document.querySelectorAll('button')[2].setAttribute('disabled', 'disabled');
-      document.querySelector('input').setAttribute('readonly', 'readonly');
+      buttonForm.setAttribute('disabled', 'disabled');
+      input.setAttribute('readonly', 'readonly');
       return;
     }
-
     if (value === 'failed') {
-      document.querySelectorAll('button')[2].removeAttribute('disabled');
-      document.querySelector('input').removeAttribute('readonly');
+      buttonForm.removeAttribute('disabled');
+      input.removeAttribute('readonly');
     } else if (value === 'finiched') {
-      console.log('успешно');
-      document.querySelectorAll('button')[2].removeAttribute('disabled');
-      document.querySelector('input').removeAttribute('readonly');
+      form.reset();
+      buttonForm.removeAttribute('disabled');
+      input.removeAttribute('readonly');
       renderHeadlines();
       const { posts, fids } = state.contener;
       posts.map((el) => renderingPosts(el));
@@ -74,10 +78,10 @@ export default () => {
     }
     const keyMessage = value === 'finiched' ? 'feed.loaded' : state.errors.key;
     const message = i18next.t(keyMessage);
-    renderingMessage(message, value);
+    renderingMessage(value, feedbackContener);
     renderValidForm(keyMessage);
+    feedbackContener.innerHTML = message;
   });
-
   document.querySelector('form').addEventListener('submit', (e) => {
     e.preventDefault();
     watchedState.processStatus = 'during';
