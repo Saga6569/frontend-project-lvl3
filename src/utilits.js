@@ -33,7 +33,6 @@ export const parserData = (data) => {
 };
 
 export const renderingMessage = (text, status) => {
-  console.log('отрисовываем');
   if (status === 'finiched') {
     document.querySelector('.feedback').classList.add('text-success');
     document.querySelector('.feedback').classList.remove('text-danger');
@@ -45,8 +44,9 @@ export const renderingMessage = (text, status) => {
   document.querySelector('.feedback').innerHTML = text;
 };
 
-export const renderValidForm = (data) => {
-  if (data === false) {
+export const renderValidForm = (eror) => {
+  console.log(eror);
+  if (eror === 'form.exist' || eror === 'form.invalid') {
     document.querySelector('#url-input').classList.add('is-invalid');
     return;
   }

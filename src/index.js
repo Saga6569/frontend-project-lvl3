@@ -44,9 +44,7 @@ export default () => {
     signUpForm: {
       valid: null,
     },
-    updatePosts: true,
     processStatus: null,
-    url: null,
     SuccessfulAdded: [],
     errors: {},
     contener: {
@@ -57,14 +55,12 @@ export default () => {
 
   const watchedState = onChange(state, (path, value) => {
     if (value === 'during') {
-      console.log('блокируем кнопку');
       document.querySelectorAll('button')[2].setAttribute('disabled', 'disabled');
       document.querySelector('input').setAttribute('readonly', 'readonly');
       return;
     }
-    const validForm = state.signUpForm.valid;
+
     if (value === 'failed') {
-      console.log('отрисовываем ошибку');
       document.querySelectorAll('button')[2].removeAttribute('disabled');
       document.querySelector('input').removeAttribute('readonly');
     } else if (value === 'finiched') {
@@ -76,9 +72,10 @@ export default () => {
       posts.map((el) => renderingPosts(el));
       renderingFids(fids);
     }
-    const text = value === 'finiched' ? i18next.t('feed.loaded') : i18next.t(state.errors.key);
-    renderingMessage(text, value);
-    renderValidForm(validForm);
+    const keyMessage = value === 'finiched' ? 'feed.loaded' : state.errors.key;
+    const message = i18next.t(keyMessage);
+    renderingMessage(message, value);
+    renderValidForm(keyMessage);
   });
 
   document.querySelector('form').addEventListener('submit', (e) => {
@@ -91,7 +88,6 @@ export default () => {
       .then(({ url }) => {
         if (state.SuccessfulAdded.includes(url)) {
           state.errors = { key: 'form.exist' };
-          state.signUpForm.valid = false;
           watchedState.processStatus = 'failed';
           return;
         }
@@ -99,25 +95,17 @@ export default () => {
         promis
           .catch(() => {
             state.errors = { key: 'feed.networkError' };
-            state.signUpForm.valid = true;
             watchedState.processStatus = 'failed';
           })
           .then((response) => {
-            // console.log(response);
-            // console.log(response.data.contents);
             if (response === undefined) {
               state.errors = { key: 'feed.networkError' };
-              state.signUpForm.valid = true;
               watchedState.processStatus = 'failed';
               return;
             }
-            // console.log(ss, 'что тут');
-            // console.log(response, 'response');
-            // console.log(response.data, 'response.data');
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
-              state.signUpForm.valid = true;
               watchedState.processStatus = 'failed';
               return;
             }
@@ -125,7 +113,6 @@ export default () => {
             state.contener.fids = [...state.contener.fids, ...fids];
             state.contener.posts = [...state.contener.posts, ...posts];
             state.SuccessfulAdded.push(url);
-            state.signUpForm.valid = true;
             watchedState.processStatus = 'finiched';
             console.log('успешный конец промиса');
             const up = () => {
@@ -147,7 +134,6 @@ export default () => {
           });
       })
       .catch((er) => {
-        state.signUpForm.valid = false;
         const err = er.errors[0];
         state.errors = err;
         watchedState.processStatus = 'failed';
