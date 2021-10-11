@@ -107,17 +107,17 @@ export default () => {
             // }
           })
           .then((response) => {
-            console.log(response);
-            console.log(response.data.contents);
+            // console.log(response);
+            // console.log(response.data.contents);
             if (response.data === undefined) {
               state.errors = { key: 'feed.networkError' };
               state.signUpForm.valid = true;
               watchedState.processStatus = 'failed';
               return;
             }
-            console.log(ss, 'что тут');
-            console.log(response, 'response');
-            console.log(response.data, 'response.data');
+            // console.log(ss, 'что тут');
+            // console.log(response, 'response');
+            // console.log(response.data, 'response.data');
             const XML = parserData(response.data.contents);
             if (XML === 'er') {
               state.errors = { key: 'feed.noRss' };
