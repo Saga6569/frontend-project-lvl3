@@ -86,7 +86,6 @@ export default () => {
     watchedState.processStatus = 'during';
     const formData = new FormData(e.target);
     const result = formData.get('url');
-    const ss = result;
     const valid = schema.validate({ url: result });
     valid
       .then(({ url }) => {
@@ -98,13 +97,10 @@ export default () => {
         }
         const promis = axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
         promis
-          .catch((errror) => {
-            // if (errror.hasOwnProperty('isAxiosError')) {
+          .catch(() => {
             state.errors = { key: 'feed.networkError' };
             state.signUpForm.valid = true;
             watchedState.processStatus = 'failed';
-
-            // }
           })
           .then((response) => {
             // console.log(response);
@@ -125,9 +121,9 @@ export default () => {
               watchedState.processStatus = 'failed';
               return;
             }
-            const result = generationData(XML);
-            state.contener.fids = [...state.contener.fids, ...result.fids];
-            state.contener.posts = [...state.contener.posts, ...result.posts];
+            const { fids, posts } = generationData(XML);
+            state.contener.fids = [...state.contener.fids, ...fids];
+            state.contener.posts = [...state.contener.posts, ...posts];
             state.SuccessfulAdded.push(url);
             state.signUpForm.valid = true;
             watchedState.processStatus = 'finiched';
@@ -136,7 +132,7 @@ export default () => {
               if (state.SuccessfulAdded.length === 0) {
                 return;
               }
-              const promise1 = new Promise((resolve, reject) => {
+              const promise1 = new Promise((resolve) => {
                 setTimeout(() => {
                   resolve(updatePost);
                 }, 5000);
@@ -152,7 +148,8 @@ export default () => {
       })
       .catch((er) => {
         state.signUpForm.valid = false;
-        state.errors = er.errors[0];
+        const err = er.errors[0];
+        state.errors = err;
         watchedState.processStatus = 'failed';
       });
   });
