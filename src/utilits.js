@@ -17,13 +17,11 @@ export const generationData = (html) => {
       const title = el.querySelector('title').textContent.trim();
       const link = el.querySelector('link').textContent;
       const description = el.querySelector('description').textContent;
-      const statePost = false;
       return {
-        title, link, description, statePost,
+        title, link, description,
       };
     });
-  const result = { fids, posts };
-  return result;
+  return { fids, posts };
 };
 
 export const parserData = (data) => {
@@ -40,14 +38,6 @@ export const renderingMessage = (status, contener) => {
     contener.classList.add('text-danger');
     contener.classList.remove('text-success');
   }
-};
-
-export const renderValidForm = (eror) => {
-  if (eror === 'form.exist' || eror === 'form.invalid') {
-    document.querySelector('#url-input').classList.add('is-invalid');
-    return;
-  }
-  document.querySelector('#url-input').classList.remove('is-invalid');
 };
 
 export const renderHeadlines = () => {
@@ -82,7 +72,6 @@ export const renderingPosts = (post) => {
     <button type="button" class="btn btn-outline-primary btn-sm" data-id="${id}" data-bs-toggle="modal" data-bs-target="#modal">Просмотр</button>`;
   li.querySelector('button').addEventListener('click', () => {
     document.querySelector('.modal-title').innerHTML = `${post.title}`;
-    document.querySelector('.modal-body').innerHTML = `${post.description}`;
     document.querySelector('.modal-body').innerHTML = `${post.description}`;
     li.querySelector('a').className = 'fw-normal';
     document.querySelector('.modal-footer > a').setAttribute('href', post.link);

@@ -7,7 +7,7 @@ import axios from 'axios';
 import i18n from 'i18next';
 import {
   generationData, parserData, updatePost, renderingMessage,
-  renderingPosts, renderHeadlines, renderingFids, renderValidForm,
+  renderingPosts, renderHeadlines, renderingFids,
 } from './utilits';
 import langl from './locales/index.js';
 
@@ -79,10 +79,14 @@ export default () => {
     const keyMessage = value === 'finiched' ? 'feed.loaded' : state.errors.key;
     const message = i18next.t(keyMessage);
     renderingMessage(value, feedbackContener);
-    renderValidForm(keyMessage);
     feedbackContener.innerHTML = message;
+    if (keyMessage === 'form.exist' || keyMessage === 'form.invalid') {
+      input.classList.add('is-invalid');
+      return;
+    }
+    input.classList.remove('is-invalid');
   });
-  document.querySelector('form').addEventListener('submit', (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
     watchedState.processStatus = 'during';
     const formData = new FormData(e.target);
