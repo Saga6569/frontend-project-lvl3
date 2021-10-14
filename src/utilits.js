@@ -90,7 +90,7 @@ export const renderingFids = (fids) => {
   });
 };
 
-export const updatePost = (state) => {
+export const updatePost = async (state) => {
   const contenerPost = document.querySelector('.posts > .rounded-0');
   const arrUrl = state.SuccessfulAdded;
   const arrItems = Array.from(contenerPost.children);
@@ -105,3 +105,5 @@ export const updatePost = (state) => {
       console.log('нет совпадений');
     })));
 };
+
+export const router = async (url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
