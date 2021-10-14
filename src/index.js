@@ -1,9 +1,9 @@
+/* eslint-disable no-prototype-builtins */
 /* eslint-disable no-throw-literal */
 /* eslint-disable no-undef */
 import onChange from 'on-change';
 import * as yup from 'yup';
 import { setLocale } from 'yup';
-import axios from 'axios';
 import i18n from 'i18next';
 import {
   generationData, parserData, updatePost, renderingMessage,
@@ -192,7 +192,8 @@ export default () => {
       // };
       // up();
     } catch (er) {
-      if (er.hasOwnProperty('request')) {
+      const key = 'request';
+      if (er.hasOwnProperty(key)) {
         state.errors = { key: 'feed.networkError' };
         watchedState.processStatus = 'failed';
         return;
