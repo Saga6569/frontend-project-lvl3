@@ -192,7 +192,7 @@ export default () => {
       // };
       // up();
     } catch (er) {
-      if (er.hasOwnProperty('Network')) {
+      if (er.hasOwnProperty('request')) {
         state.errors = { key: 'feed.networkError' };
         watchedState.processStatus = 'failed';
         return;
