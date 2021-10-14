@@ -90,20 +90,34 @@ export const renderingFids = (fids) => {
   });
 };
 
+export const router = async (url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
+
 export const updatePost = async (state) => {
   const contenerPost = document.querySelector('.posts > .rounded-0');
-  const arrUrl = state.SuccessfulAdded;
+  const arrUrl = state.successfulAdded;
   const arrItems = Array.from(contenerPost.children);
   const text = arrItems.map((el) => el.firstChild.textContent);
-  return arrUrl.map((url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(String(url))}&disableCache=true`)
-    .then((value) => generationData(parserData(value.data.contents)).posts)
-    .then((value1) => value1.map((el) => {
+  return arrUrl.map(async (url) => {
+    const response = await router(url);
+    const data = parserData(response.data.contents);
+    const PostsFids = generationData(data);
+    const arrPosts = PostsFids.posts;
+    return arrPosts.map((el) => {
       if (!text.includes(el.title)) {
         console.log('совпадение');
         return renderingPosts(el);
       }
       console.log('нет совпадений');
-    })));
+    });
+  });
 };
 
-export const router = async (url) => axios.get(`https://hexlet-allorigins.herokuapp.com/get?url=${encodeURIComponent(url)}&disableCache=true`);
+export const formLock = (processStatus, input, buttonForm) => {
+  if (processStatus === 'during') {
+    buttonForm.setAttribute('disabled', 'disabled');
+    input.setAttribute('readonly', 'readonly');
+    return;
+  }
+  buttonForm.removeAttribute('disabled');
+  input.removeAttribute('readonly');
+};
