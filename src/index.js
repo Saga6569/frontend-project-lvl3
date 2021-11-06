@@ -56,7 +56,6 @@ export default () => {
   const form = document.querySelector('form');
   const buttonForm = document.querySelectorAll('button')[2];
   const feedbaСkcontainer = document.querySelector('.feedback');
-
   const watchedState = onChange(state, async (path, value) => {
     formLock(value, input, buttonForm);
     renderingMessage(value, feedbaСkcontainer);
